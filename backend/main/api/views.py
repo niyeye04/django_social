@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import views,parsers,status
+from rest_framework import views,parsers,status,generics,permissions,authentication
 from rest_framework.response import Response
 from . import serializers
 # Create your views here.
@@ -13,3 +13,9 @@ class TestView(views.APIView):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED )
         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+    
+class UserRegisteringView(generics.CreateAPIView):
+    serializer_class = serializers.UserRegistrationSerializer
+    permission_classes = [permissions.AllowAny]
+    parser_classes = [parsers.FormParser,parsers.MultiPartParser]
+    authentication_classes = [authentication.TokenAuthentication]
