@@ -34,3 +34,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data["password"])
         user.save()
         return user
+    
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required = False,validators = [validators.UniqueValidator(queryset=CustomUser.objects.all())])
+    class Meta:
+        model = CustomUser
+        fields = ["email","profile_pic","phone_number","birthdate","bio"]

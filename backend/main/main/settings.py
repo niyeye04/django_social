@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'groups',
     'posts',
     'api',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
