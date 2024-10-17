@@ -1,15 +1,9 @@
 from rest_framework import serializers,validators
 from django.contrib.auth.password_validation import validate_password
 from users.models import CustomUser
-
-class TestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ["profile_pic","phone_number","birthdate","bio"]
-
-
+from posts.models import Post
         
-
+#User Serializers
 class UserRegistrationSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required = True, validators = [validators.UniqueValidator(queryset = CustomUser.objects.all())])
     email = serializers.CharField(required = True, validators = [validators.UniqueValidator(queryset= CustomUser.objects.all())])
@@ -41,3 +35,5 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["email","profile_pic","phone_number","birthdate","bio"]
+
+
