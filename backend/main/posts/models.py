@@ -2,16 +2,24 @@ from django.db import models
 from users.models import CustomUser as User
 from datetime import datetime, timedelta
 from django.utils.timezone import now
+from groups.models import Group
 
 # Create your models here.
 class Post(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE, related_name="posts")
     content = models.ImageField(upload_to='posts/', default=None)
+    #group = models.ForeignKey("groups.Group", on_delete=models.CASCADE,blank=True,related_name="posts", null=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="group_posts", blank=True, null=True)  # Nullable, links to a group if it's a group post
     caption = models.CharField(max_length=200, blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User,related_name="liked_posts",blank=True)
     dislikes = models.ManyToManyField(User,related_name="disliked_posts",blank=True)
-    
+
+    @property
+    def is_group_post(self):
+        if self.group is None:
+            return False
+        return True
 
     @property
     def like_count(self):

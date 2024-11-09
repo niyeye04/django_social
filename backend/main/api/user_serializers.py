@@ -34,6 +34,6 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required = False,validators = [validators.UniqueValidator(queryset=CustomUser.objects.all())])
     class Meta:
         model = CustomUser
-        fields = ["email","profile_pic","phone_number","birthdate","bio"]
+        fields = ["email", "profile_pic", "phone_number", "birthdate", "bio"]
 
 

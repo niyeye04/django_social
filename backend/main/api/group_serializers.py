@@ -31,5 +31,7 @@ class DeleteGroupSerializer(serializers.ModelSerializer):
 class UpdateGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        exclude = ['created_at','posts','admin','members']
+        admin = serializers.CharField(read_only = True)
+        members = serializers.CharField(read_only = True)
+        exclude = ['created_at','posts',]
         

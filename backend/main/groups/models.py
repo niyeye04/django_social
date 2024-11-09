@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import CustomUser as User
-from posts.models import Post
+# from posts.models import Post
 from datetime import datetime, timedelta
 from django.utils.timezone import now
 
@@ -9,7 +9,7 @@ from django.utils.timezone import now
 class Group(models.Model):
     admin =  models.ManyToManyField(User,related_name="admins",blank=True)
     members = models.ManyToManyField(User,related_name="members",blank=True)
-    posts =  models.ForeignKey(Post, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
+    # posts =  models.ForeignKey(Post, on_delete=models.CASCADE, related_name="posts", blank=True, null=True)
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     profile_pic =  models.ImageField(upload_to="profile_pics/group/",null=True, blank=True)

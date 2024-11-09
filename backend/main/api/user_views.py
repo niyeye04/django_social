@@ -17,7 +17,7 @@ class UserRegisteringView(generics.CreateAPIView):
 class ProfileUpdateView(views.APIView):
     serializer_class = user_serializers.ProfileUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [parsers.FormParser,parsers.MultiPartParser]
+    parser_classes = [parsers.JSONParser,parsers.FormParser, parsers.MultiPartParser]
     authentication_classes = [authentication.SessionAuthentication,authentication.TokenAuthentication]
 
     def put(self,request,*args, **kwargs):
@@ -29,7 +29,7 @@ class ProfileUpdateView(views.APIView):
     
     def patch(self,request,*args, **kwargs):
         serializer = self.serializer_class(instance = request.user,data = request.data,partial = True)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
@@ -40,9 +40,24 @@ class JoinGroupView(views.APIView):
 
     def get(self,request,group_id,*args, **kwargs):
         group = get_object_or_404(Group,id = group_id)
-        group = group.save()
         group.members.add(request.user)
-        return Response("{message : Joined the group successfully}", status=status.HTTP_202_ACCEPTED)
+        return Response({"message" : "Joined the group successfully"}, status=status.HTTP_202_ACCEPTED)
+    
 
+class LeaveGroupView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
 
-
+    def get(self,request,group_id,*args, **kwargs):
+        group = get_object_or_404(Group,id = group_id)
+        user = request.user
+        if user in group.admin.all() and user in group.members.all():
+            group.members.remove(user)
+            group.admin.remove(user)
+            return Response({"message" : "Left the group successfully"}, status=status.HTTP_202_ACCEPTED)
+        elif user in group.members.all():
+            group.members.remove(user)
+            return Response({"message" : "Left the group successfully"}, status=status.HTTP_202_ACCEPTED)
+        
+        return Response({"message" : "User not in this group"}, status=status.HTTP_404_NOT_FOUND)
+    
