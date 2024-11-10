@@ -1,7 +1,7 @@
 from rest_framework import serializers,validators
 from django.contrib.auth.password_validation import validate_password
 from users.models import CustomUser
-from posts.models import Post
+from posts.models import Post,Comments
 
 
 #Posts Selializers
@@ -36,7 +36,7 @@ class ReturnPostSerializer(serializers.ModelSerializer):
     is_group_post = serializers.ReadOnlyField()
     class Meta:
         model =  Post
-        fields = ['owner','is_group_post','content','caption','created_at',"likes","dislikes","time_since_posted"]
+        fields = ['id','owner','is_group_post','content','caption','created_at',"likes","dislikes","time_since_posted"]
 
 
 class DeletePostSerializer(serializers.ModelSerializer):
@@ -56,3 +56,11 @@ class UpdatePostSerializer(serializers.ModelSerializer):
         instance.caption = validates_data.get('content', instance.caption)
         instance.save()
         return instance
+    
+
+
+class WriteCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = ['owner', 'content']
+        read_only_fields = ['owner', 'post']

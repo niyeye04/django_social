@@ -59,10 +59,10 @@ class Comments(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE, related_name="comments")
     owner = models.ForeignKey(User,on_delete=models.CASCADE, related_name="commenter")
     content = models.TextField()
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"Commented by {self.owner.username}" 
+        return f"Commented by {self.owner.username} at {self.created_at}" 
     
     @property
     def time_since_posted(self):

@@ -12,7 +12,7 @@ urlpatterns = [
     path("profile/update/",user_views.ProfileUpdateView.as_view(),name = "user-update"),
     path("join_group/<int:group_id>/",user_views.JoinGroupView.as_view(),name = "group-join"),
     path("leave_group/<int:group_id>/",user_views.LeaveGroupView.as_view(),name = "group-leave"),
-
+    
 
     #post urls
     path("post/create/",post_views.createPostView2.as_view(), name="post-create"),
@@ -20,6 +20,10 @@ urlpatterns = [
     path("post/update/<int:post_id>/",post_views.UpdatePostView.as_view(),name = "post-update"),
     path("post/create/",post_views.createPostView2.as_view(), name="post-create"),
     path("post/list/",post_views.ListPostView.as_view(), name="post-list"),
+    path("post/react/<int:post_id>/<int:like_post>/",post_views.LikeAndDislikeView.as_view(), name="post-list"),
+
+    # Comment urls
+    path("post/comment/<int:post_id>/",post_views.WriteCommentView.as_view(), name="comment-write"),
 
 
     #group urls
