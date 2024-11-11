@@ -3,6 +3,7 @@ from rest_framework import views,parsers,status,generics,permissions,authenticat
 from rest_framework.response import Response
 from . import user_serializers
 from groups.models import Group
+from users.models import CustomUser as User
 # Create your views here.
 
 #User Views
@@ -21,7 +22,7 @@ class ProfileUpdateView(views.APIView):
     authentication_classes = [authentication.SessionAuthentication,authentication.TokenAuthentication]
 
     def put(self,request,*args, **kwargs):
-        serializer = self.serializer_class(instance = request.user,data = request.data)
+        serializer = self.serializer_class(instance=request.user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -60,4 +61,35 @@ class LeaveGroupView(views.APIView):
             return Response({"message" : "Left the group successfully"}, status=status.HTTP_202_ACCEPTED)
         
         return Response({"message" : "User not in this group"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class FollowAndUnFollowingViews(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
+
+    def get(self, request,following, user_being_followed_id,*args, **kwargs):
+        user = request.user
+        user_being_followed = get_object_or_404(User, id = user_being_followed_id)
+        if user_being_followed.id == user.id:
+            return Response({"message":"Sorry Can't follow or unfollow yourself"})
+        else:
+            if following:
+                if user in user_being_followed.followers.all():
+                    return Response({"message":"followed succssefully"})
+                else:
+                    user_being_followed.followers.add(user)
+                    return Response({"message":"followed succssefully"})
+            else:
+                if user in user_being_followed.followers.all():
+                    user_being_followed.followers.remove(user)
+                    return Response({"message":"Unfollowed succssefully"})
+
+                else:
+                    return Response({"message":"Unfollowed succssefully"})
+
+
+class ListUserView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = user_serializers.ListUserSerializers
+    authentication_classes = [authentication.SessionAuthentication,authentication.TokenAuthentication]
     

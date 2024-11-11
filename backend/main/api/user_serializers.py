@@ -37,3 +37,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
         fields = ["email", "profile_pic", "phone_number", "birthdate", "bio"]
 
 
+class ListUserSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
