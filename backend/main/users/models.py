@@ -49,3 +49,5 @@ class CustomUser(AbstractUser):
     @property
     def following_count(self):
         return self.following.count()
+    
+

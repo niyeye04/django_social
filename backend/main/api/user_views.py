@@ -5,6 +5,9 @@ from . import user_serializers
 from groups.models import Group
 from users.models import CustomUser as User
 # Create your views here.
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 
 #User Views
     
@@ -13,6 +16,8 @@ class UserRegisteringView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
     parser_classes = [parsers.FormParser,parsers.MultiPartParser]
     #authentication_classes = [authentication.TokenAuthentication]
+
+
 
 
 class ProfileUpdateView(views.APIView):
@@ -92,4 +97,8 @@ class ListUserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = user_serializers.ListUserSerializers
     authentication_classes = [authentication.SessionAuthentication,authentication.TokenAuthentication]
+    
+
+class SignUpView(views.APIView):
+    permission_classes = [permissions.AllowAny]
     

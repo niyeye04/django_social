@@ -132,3 +132,11 @@ MEDIA_ROOT = BASE_DIR /'media'
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+
+
+# Celery Configuration Options
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as the broker
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
