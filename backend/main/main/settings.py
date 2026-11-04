@@ -140,3 +140,10 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as the broker
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': 'redis://localhost:6379/1',  # Using database 1 for caching
+#     }
+# }
