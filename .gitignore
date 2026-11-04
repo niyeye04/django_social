@@ -1,0 +1,61 @@
+# Python / Byte-compiled artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments & UV
+.venv/
+env/
+venv/
+ENV/
+env.bak
+venv.bak
+.uv/
+
+# Django local database & logs
+*.sqlite3
+*.db
+db.sqlite3-journal
+logs/
+*.log
+
+# Media uploads (user-uploaded files, profile pics, post images)
+backend/main/media/
+
+# Environment variables & local secrets
+.env
+.env.local
+.venv
+
+# IDEs & Editors (VS Code, PyCharm, Neovim)
+.vscode/
+.idea/
+
+
+# # OS-specific files
+# .DS_Store
+# .DS_Store?
+# ._*
+# .Spotlight-V100
+# .Trashes
+# ehthumbs.db
+# Thumbs.db
